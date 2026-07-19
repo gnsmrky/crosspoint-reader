@@ -523,6 +523,7 @@ def rasterize_font_style(fontfile, size, intervals, style_id=0, force_autohint=F
                          fallback_fontfile=None):
     """Rasterize all glyphs for one font style. Returns StyleRasterData."""
     import freetype
+    from ctypes import byref
 
     style_names = {0: "regular", 1: "bold", 2: "italic", 3: "bolditalic"}
     style_label = style_names.get(style_id, str(style_id))
@@ -545,7 +546,13 @@ def rasterize_font_style(fontfile, size, intervals, style_id=0, force_autohint=F
     def load_glyph(code_point):
         glyph_index = face.get_char_index(code_point)
         if glyph_index > 0:
-            face.load_glyph(glyph_index, load_flags)
+            #face.load_glyph(glyph_index, load_flags)
+
+            # add strength for font weight
+            face.load_glyph(glyph_index, freetype.FT_LOAD_DEFAULT | freetype.FT_LOAD_NO_BITMAP)
+            strength = 32 
+            freetype.FT_Outline_Embolden(byref(face.glyph.outline._FT_Outline), strength)
+            face.glyph.render(freetype.FT_LOAD_TARGET_NORMAL)
             return face
         if fallback_face:
             fallback_glyph_index = fallback_face.get_char_index(code_point)
