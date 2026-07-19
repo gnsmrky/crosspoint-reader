@@ -130,9 +130,7 @@ Convert your own TTF/OTF files into `.cpfont` files that load from the SD card. 
 Conversion runs the firmware repo's `lib/EpdFont/scripts/fontconvert_sdcard.py` script unmodified, so output matches a local host build.
 
 ## Run font conversion locally for cjk fonts
-Notes:
-1. The web converter at https://crosspointreader.com/fonts results in error when converting cjk font files (.ttf & .otf).
-1. The font converter in this repo sets font weight to 700 to make it more "bold".  It looks much better for cjk fonts on XTEink X4.
+The font converter in this repo sets font weight to 700 to make it more "bold".  It looks much better for cjk fonts on XTEink X4.
 ```
 python3 lib/EpdFont/scripts/fontconvert_sdcard.py --regular fonts/GuanKiapTsingKhai.ttf --intervals ascii,cjk --name GuanKiapTsingKhai --sizes 14,16,18,22 --output-dir fonts/
 ```
